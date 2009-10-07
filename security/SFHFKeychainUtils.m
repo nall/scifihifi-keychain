@@ -30,6 +30,19 @@
 #import "SFHFKeychainUtils.h"
 #import <Security/Security.h>
 
+#if TARGET_OS_MAC == 1
+//
+// Security.framework on 10.6 has two issues compared to the iPhone version
+// 1. Security.h doesn't include SecItem.h
+// 2. kSecClassGenericPassword is not declared in SecItem.h
+//
+
+#import <Security/SecItem.h>
+
+extern const CFTypeRef kSecClassGenericPassword;
+
+#endif // TARGET_OS_MAC
+
 static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 30000 && TARGET_IPHONE_SIMULATOR
